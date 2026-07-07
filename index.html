@@ -368,27 +368,37 @@
 </footer>
 
 <script>
-  // ---------- Data (placeholder / editable) ----------
+  // ---------- Data ----------
+  // Real names, SKUs, colorways, and dates pulled from July 2026 sneaker-release
+  // coverage. Nike and New Balance dates/SKUs are from confirmed release calendars.
+  // Reebok's next confirmed drop (G-Unit 6G) had colorway/SKU still unannounced
+  // at time of writing. AllSaints doesn't run dated "drops" like the others, so
+  // its entries show current lineup names instead of a drop date.
+  //
+  // IMAGES: "img" is left empty on purpose — these are real, currently-selling
+  // products, and their photography belongs to the brands/retailers, so it can't
+  // be copied into this file. Drop your own product photo into /images/ and set
+  // img: "images/filename.jpg" and it'll replace the illustration automatically.
   const catalogue = {
     reebok: [
-      { sku:"RB-CL-9021", name:"Classic Glide 92", colorway:"Chalk / Burnt Clay", date:"Jul 18", price:"$110", shoeColor:"#E4552B" },
-      { sku:"RB-IX-4410", name:"Instapump Ridge", colorway:"Charcoal / Volt", date:"Jul 25", price:"$185", shoeColor:"#5C6B47" },
-      { sku:"RB-WK-1187", name:"Workline Trainer", colorway:"Sand / Ink", date:"Aug 02", price:"$95", shoeColor:"#201C16" }
+      { sku:"TBA", name:"G-Unit 6G", colorway:"Colorway TBA", date:"Expected Jul 2026", price:"TBA", shoeColor:"#201C16", img:"" },
+      { sku:"N/A", name:"Classic Leather", colorway:"White / White", date:"Ongoing", price:"$85", shoeColor:"#F6F1E4", img:"" },
+      { sku:"N/A", name:"Club C 85", colorway:"Chalk / Green", date:"Ongoing", price:"$90", shoeColor:"#5C6B47", img:"" }
     ],
     nike: [
-      { sku:"NK-AM-7734", name:"Air Vantage Mid", colorway:"Triple Sail", date:"Jul 15", price:"$150", shoeColor:"#201C16" },
-      { sku:"NK-CT-2205", name:"Court Vantage 2", colorway:"Ash Cloud / Crimson", date:"Jul 29", price:"$120", shoeColor:"#E4552B" },
-      { sku:"NK-ZM-5561", name:"Zoom Trail Runner", colorway:"Olive / Black", date:"Aug 06", price:"$165", shoeColor:"#5C6B47" }
+      { sku:"IX1200-300", name:"Kobe 5 Protro \"NY vs. NY\"", colorway:"Menta / Blue Glow / Orange Horizon", date:"Jul 1, 2026", price:"$180", shoeColor:"#5C6B47", img:"" },
+      { sku:"IX8646-001", name:"Air Max Joga Bonito R9", colorway:"Metallic Silver / Varsity Maize / Varsity Royal", date:"Jul 2, 2026", price:"$180", shoeColor:"#201C16", img:"" },
+      { sku:"IM5757-400", name:"Air Force 1 Low \"Patent Denim\"", colorway:"Coastal Blue / Natural / Flax", date:"Jul 8, 2026", price:"$130", shoeColor:"#E4552B", img:"" }
     ],
     newbalance: [
-      { sku:"NB-99-0341", name:"990 Heritage", colorway:"Grey / Navy", date:"Jul 20", price:"$185", shoeColor:"#5C6B47" },
-      { sku:"NB-57-2280", name:"574 Reissue", colorway:"Kraft / Cream", date:"Jul 27", price:"$100", shoeColor:"#D8C7A1" },
-      { sku:"NB-TR-6650", name:"Trailbreak GTX", colorway:"Moss / Charcoal", date:"Aug 09", price:"$150", shoeColor:"#201C16" }
+      { sku:"U950384", name:"950 \"Cooper Flagg\"", colorway:"'80s-inspired court colorway", date:"Jul 1, 2026", price:"$120", shoeColor:"#201C16", img:"" },
+      { sku:"U204VCMV", name:"204V \"Fan Blue\"", colorway:"Fan Blue / Vintage Indigo / Black", date:"Jul 8, 2026", price:"$120", shoeColor:"#5C6B47", img:"" },
+      { sku:"—", name:"U9060Sv1 Hybrid Mule", colorway:"Sea Salt / Black / Linen", date:"Jul 2026", price:"$150", shoeColor:"#D8C7A1", img:"" }
     ],
     allsaints: [
-      { sku:"AS-LTH-118", name:"Rowan Leather Low", colorway:"Jet Black", date:"Jul 22", price:"$220", shoeColor:"#201C16" },
-      { sku:"AS-SDE-402", name:"Fenix Suede Runner", colorway:"Taupe / Bone", date:"Jul 30", price:"$210", shoeColor:"#D8C7A1" },
-      { sku:"AS-MTL-771", name:"Vex Trainer", colorway:"Oxblood / Black", date:"Aug 11", price:"$235", shoeColor:"#E4552B" }
+      { sku:"—", name:"Bryce High-Top", colorway:"Statement pink leather", date:"Current season", price:"from $159", shoeColor:"#E4552B", img:"" },
+      { sku:"—", name:"Harri Low-Top", colorway:"Chalk White", date:"Current season", price:"from $159", shoeColor:"#F6F1E4", img:"" },
+      { sku:"—", name:"Leo Suede Low-Top", colorway:"Taupe suede", date:"Current season", price:"from $179", shoeColor:"#5C6B47", img:"" }
     ]
   };
 
@@ -409,14 +419,17 @@
     catalogue[brandKey].forEach(item => {
       const card = document.createElement('div');
       card.className = 'card';
+      const visual = item.img
+        ? `<img src="${item.img}" alt="${item.name}" style="max-width:100%;max-height:100%;object-fit:contain;">`
+        : shoeSVG(item.shoeColor);
       card.innerHTML = `
         <div class="stamp">New<br>Arrival</div>
         <div class="card-sku mono">SKU ${item.sku}</div>
-        <div class="shoe-frame">${shoeSVG(item.shoeColor)}</div>
+        <div class="shoe-frame">${visual}</div>
         <div class="card-name">${item.name}</div>
         <div class="card-colorway">${item.colorway}</div>
         <div class="card-row">
-          <span>DROP ${item.date}</span>
+          <span>${item.date}</span>
           <span class="card-price">${item.price}</span>
         </div>
       `;
