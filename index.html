@@ -369,38 +369,67 @@
 
 <script>
   // ---------- Data ----------
-  // Real names, SKUs, colorways, and dates pulled from July 2026 sneaker-release
-  // coverage. Nike and New Balance dates/SKUs are from confirmed release calendars.
-  // Reebok's next confirmed drop (G-Unit 6G) had colorway/SKU still unannounced
-  // at time of writing. AllSaints doesn't run dated "drops" like the others, so
-  // its entries show current lineup names instead of a drop date.
+  // Real shoe names/SKUs/colorways pulled from July 2026 release coverage and
+  // brand catalogues. Each brand has a bigger pool than the page shows —
+  // CARDS_PER_BRAND controls how many get picked, and the pick is randomized
+  // on every page load, so refreshing (or reopening the browser) shows a
+  // different lineup each time.
   //
-  // IMAGES: "img" is left empty on purpose — these are real, currently-selling
-  // products, and their photography belongs to the brands/retailers, so it can't
-  // be copied into this file. Drop your own product photo into /images/ and set
+  // IMAGES: "img" is left empty on purpose — these are real products, and
+  // their photography belongs to the brands/retailers, so it can't be copied
+  // into this file. Drop your own saved photo into /images/ and set
   // img: "images/filename.jpg" and it'll replace the illustration automatically.
+  const CARDS_PER_BRAND = 3;
+
   const catalogue = {
     reebok: [
       { sku:"TBA", name:"G-Unit 6G", colorway:"Colorway TBA", date:"Expected Jul 2026", price:"TBA", shoeColor:"#201C16", img:"" },
       { sku:"N/A", name:"Classic Leather", colorway:"White / White", date:"Ongoing", price:"$85", shoeColor:"#F6F1E4", img:"" },
-      { sku:"N/A", name:"Club C 85", colorway:"Chalk / Green", date:"Ongoing", price:"$90", shoeColor:"#5C6B47", img:"" }
+      { sku:"N/A", name:"Club C 85", colorway:"Chalk / Green", date:"Ongoing", price:"$90", shoeColor:"#5C6B47", img:"" },
+      { sku:"N/A", name:"Instapump Fury", colorway:"Black / Volt", date:"Ongoing", price:"$185", shoeColor:"#201C16", img:"" },
+      { sku:"N/A", name:"Question Mid", colorway:"White / Red / Black", date:"Ongoing", price:"$140", shoeColor:"#E4552B", img:"" },
+      { sku:"N/A", name:"Workout Plus", colorway:"Sand / Gum", date:"Ongoing", price:"$100", shoeColor:"#D8C7A1", img:"" },
+      { sku:"N/A", name:"Freestyle Hi", colorway:"White / White", date:"Ongoing", price:"$80", shoeColor:"#F6F1E4", img:"" },
+      { sku:"N/A", name:"Pump Omni Zone II", colorway:"Charcoal / Blue", date:"Ongoing", price:"$170", shoeColor:"#5C6B47", img:"" }
     ],
     nike: [
       { sku:"IX1200-300", name:"Kobe 5 Protro \"NY vs. NY\"", colorway:"Menta / Blue Glow / Orange Horizon", date:"Jul 1, 2026", price:"$180", shoeColor:"#5C6B47", img:"" },
+      { sku:"IV7127-600", name:"Kobe 3 Protro", colorway:"Total Pink takeover", date:"Jul 1, 2026", price:"$190", shoeColor:"#E4552B", img:"" },
       { sku:"IX8646-001", name:"Air Max Joga Bonito R9", colorway:"Metallic Silver / Varsity Maize / Varsity Royal", date:"Jul 2, 2026", price:"$180", shoeColor:"#201C16", img:"" },
-      { sku:"IM5757-400", name:"Air Force 1 Low \"Patent Denim\"", colorway:"Coastal Blue / Natural / Flax", date:"Jul 8, 2026", price:"$130", shoeColor:"#E4552B", img:"" }
+      { sku:"IM5757-400", name:"Air Force 1 Low \"Patent Denim\"", colorway:"Coastal Blue / Natural / Flax", date:"Jul 8, 2026", price:"$130", shoeColor:"#E4552B", img:"" },
+      { sku:"IQ8395-100", name:"SB Air Max 95 \"Club 58\"", colorway:"Sail / Laser Orange / Black", date:"Jul 7, 2026", price:"$190", shoeColor:"#D8C7A1", img:"" },
+      { sku:"IV6299-410", name:"Air Griffey Max 1", colorway:"Midnight Navy / Team Gold / Freshwater", date:"Jul 10, 2026", price:"$180", shoeColor:"#201C16", img:"" },
+      { sku:"IM5125-401", name:"LeBron 23 \"Stewie\"", colorway:"Baltic Blue / White / Bluegrass", date:"Jul 7, 2026", price:"$210", shoeColor:"#5C6B47", img:"" },
+      { sku:"IQ3919-001", name:"Kobe Dunk Low Protro", colorway:"Black / Multi-Color / Hot Punch", date:"Jul 17, 2026", price:"$135", shoeColor:"#201C16", img:"" }
     ],
     newbalance: [
       { sku:"U950384", name:"950 \"Cooper Flagg\"", colorway:"'80s-inspired court colorway", date:"Jul 1, 2026", price:"$120", shoeColor:"#201C16", img:"" },
       { sku:"U204VCMV", name:"204V \"Fan Blue\"", colorway:"Fan Blue / Vintage Indigo / Black", date:"Jul 8, 2026", price:"$120", shoeColor:"#5C6B47", img:"" },
-      { sku:"—", name:"U9060Sv1 Hybrid Mule", colorway:"Sea Salt / Black / Linen", date:"Jul 2026", price:"$150", shoeColor:"#D8C7A1", img:"" }
+      { sku:"U204VMCV", name:"204V \"Neo Flame\"", colorway:"Neo Flame / Black / Black Cement", date:"Jul 8, 2026", price:"$120", shoeColor:"#E4552B", img:"" },
+      { sku:"—", name:"U9060Sv1 Hybrid Mule", colorway:"Sea Salt / Black / Linen", date:"Jul 2026", price:"$150", shoeColor:"#D8C7A1", img:"" },
+      { sku:"—", name:"880R", colorway:"Black / Grey", date:"Jul 1, 2026", price:"$120", shoeColor:"#201C16", img:"" },
+      { sku:"—", name:"ABZORB 1890A", colorway:"Fluorescent multi-tone", date:"Ongoing", price:"$160", shoeColor:"#E4552B", img:"" },
+      { sku:"—", name:"2011 \"Sakura Flower\"", colorway:"Soft pink / cream", date:"Ongoing", price:"$150", shoeColor:"#F6F1E4", img:"" }
     ],
     allsaints: [
       { sku:"—", name:"Bryce High-Top", colorway:"Statement pink leather", date:"Current season", price:"from $159", shoeColor:"#E4552B", img:"" },
       { sku:"—", name:"Harri Low-Top", colorway:"Chalk White", date:"Current season", price:"from $159", shoeColor:"#F6F1E4", img:"" },
-      { sku:"—", name:"Leo Suede Low-Top", colorway:"Taupe suede", date:"Current season", price:"from $179", shoeColor:"#5C6B47", img:"" }
+      { sku:"—", name:"Leo Suede Low-Top", colorway:"Taupe suede", date:"Current season", price:"from $179", shoeColor:"#5C6B47", img:"" },
+      { sku:"—", name:"Rimini", colorway:"Sleek monochrome", date:"Current season", price:"from $189", shoeColor:"#201C16", img:"" },
+      { sku:"—", name:"Jaimee", colorway:"Urban neutral", date:"Current season", price:"from $169", shoeColor:"#D8C7A1", img:"" },
+      { sku:"—", name:"Klop Leather Low-Top", colorway:"Black leather", date:"Current season", price:"from $199", shoeColor:"#201C16", img:"" }
     ]
   };
+
+  // Fisher–Yates shuffle
+  function shuffle(arr){
+    const a = arr.slice();
+    for(let i = a.length - 1; i > 0; i--){
+      const j = Math.floor(Math.random() * (i + 1));
+      [a[i], a[j]] = [a[j], a[i]];
+    }
+    return a;
+  }
 
   function shoeSVG(color){
     return `<svg viewBox="0 0 200 100" xmlns="http://www.w3.org/2000/svg">
@@ -416,7 +445,8 @@
 
   function renderGrid(brandKey){
     const grid = document.getElementById('grid-' + brandKey);
-    catalogue[brandKey].forEach(item => {
+    const picks = shuffle(catalogue[brandKey]).slice(0, CARDS_PER_BRAND);
+    picks.forEach(item => {
       const card = document.createElement('div');
       card.className = 'card';
       const visual = item.img
